@@ -6,6 +6,7 @@
 (define-struct image-posn (img x y))
 ;; An ImageXY is a (make-image-posn Image Nat Nat)
 
+(define black-pen (make-pen "black" 0 "solid" "round" "round"))
 
 ;; (curve-size n l) produces size of nth iteration of hilbert
 ;;                  curve with line segments of length l
@@ -33,13 +34,13 @@
   (add-line (add-line (add-line empty-image
                                 0 (curve-size (- n 1) l)
                                 0 (+ (curve-size (- n 1) l) l)
-                                black)
+                                black-pen)
                       (curve-size (- n 1) l)       (curve-size (- n 1) l)
                       (+ (curve-size (- n 1) l) l) (curve-size (- n 1) l)
-                      black)
+                      black-pen)
             (curve-size n l) (curve-size (- n 1) l)
             (curve-size n l) (+ (curve-size (- n 1) l) l)
-            black))
+            black-pen))
 
 ;; (hilbert n l) produces iteration n of hilbert curve
 ;;               with line segments of length l
