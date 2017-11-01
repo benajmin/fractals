@@ -5,13 +5,13 @@
 (define clear (make-color   0   0   0   0))
 
 (define-struct image-posn (img x y))
-;; An ImageXY is a (make-image-posn Image Nat Nat)
+;; An Image-Posn is a (make-image-posn Image Nat Nat)
 
 (define black-pen (make-pen "black" 0 "solid" "round" "round"))
 
 ;; (overlay-list images) produces a single image with every image overlayed
 ;;                       and offset by it's corresponding x and y coordinates
-;; overlay-list: (listof Image-posn) -> Image
+;; overlay-list: (listof Image-Posn) -> Image
 
 (define (overlay-list images)
   (cond [(empty? images) empty-image]
