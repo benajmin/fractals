@@ -1,6 +1,6 @@
 ;; The first three lines of this file were inserted by DrRacket. They record metadata
 ;; about the language level of this file in a form that our tools can easily process.
-#reader(lib "htdp-beginner-abbr-reader.ss" "lang")((modname HilbertV2) (read-case-sensitive #t) (teachpacks ((lib "image.rkt" "teachpack" "2htdp"))) (htdp-settings #(#t constructor repeating-decimal #f #t none #f ((lib "image.rkt" "teachpack" "2htdp")) #t)))
+#reader(lib "htdp-intermediate-reader.ss" "lang")((modname HilbertV2) (read-case-sensitive #t) (teachpacks ((lib "image.rkt" "teachpack" "2htdp"))) (htdp-settings #(#t constructor repeating-decimal #f #t none #f ((lib "image.rkt" "teachpack" "2htdp")) #t)))
 (define black (make-color   0   0   0))
 (define clear (make-color   0   0   0   0))
 
@@ -42,17 +42,18 @@
 
 (define (hilbert n l)
   (cond [(= n 0) empty-image]
-        [else (overlay-list (list
-                             (make-image-posn (separators n l)
-                                              0 0)
-                             (make-image-posn (hilbert (- n 1) l)
-                                              0 0)
-                             (make-image-posn (hilbert (- n 1) l)
-                                              (* (expt 2 (- n 1)) l) 0)
-                             (make-image-posn (rotate 270 (hilbert (- n 1) l))
-                                              0 (* (expt 2 (- n 1)) l))
-                             (make-image-posn (rotate 90 (hilbert (- n 1) l))
-                                              (* (expt 2 (- n 1)) l) (* (expt 2 (- n 1)) l))))]))
+        [else (local [(define prevIteration (hilbert (- n 1) l))]
+                (overlay-list (list
+                               (make-image-posn (separators n l)
+                                                0 0)
+                               (make-image-posn prevIteration
+                                                0 0)
+                               (make-image-posn prevIteration
+                                                (* (expt 2 (- n 1)) l) 0)
+                               (make-image-posn (rotate 270 prevIteration)
+                                                0 (* (expt 2 (- n 1)) l))
+                               (make-image-posn (rotate 90 prevIteration)
+                                                (* (expt 2 (- n 1)) l) (* (expt 2 (- n 1)) l)))))]))
 
 ;; (hilbert-wrapper n l) produces nth iteration of hilbert curve
 ;;                       with line segments of length l
